@@ -4,11 +4,10 @@
  public class DamagedFlash : MonoBehaviour {
      private Texture2D pixel;
      public Color color = Color.red;
-     public float startAlpha=0.9f;
      public float maxAlpha=1.0f;
-     public float rampUpTime=0.5f;
+     public float rampUpTime=0.1f;
      public float holdTime=0.1f;
-     public float rampDownTime=0.5f;
+     public float rampDownTime=1.0f;
  
      enum FLASHSTATE {OFF,UP,HOLD,DOWN}
      Timer timer;
@@ -27,19 +26,13 @@
  
      public void Update() {
          switch(state){
-             case FLASHSTATE.HOLD:
-                 Debug.Log("got here 1");
-                 if (timer.UpdateAndTest()){
-                     state =FLASHSTATE.DOWN;
-                     timer = new Timer(rampDownTime);
-                 }
-             break;
              case FLASHSTATE.DOWN:
                  if (timer.UpdateAndTest()){
                      state =FLASHSTATE.OFF;
                      timer = null;
-                 }
-             break;
+                     SetPixelAlpha(0);
+                }
+                break;
          }
      }
  
@@ -51,20 +44,18 @@
  
      public void OnGUI(){
          switch(state){
-             case FLASHSTATE.DOWN:
-                 SetPixelAlpha(Mathf.Lerp(maxAlpha,0,timer.Elapsed));
-                 break;
+            case FLASHSTATE.DOWN:
+                SetPixelAlpha(Mathf.Lerp(maxAlpha, 0, timer.Elapsed));
+                break;
          }
          GUI.DrawTexture(new Rect(0,0,Screen.width, Screen.height), pixel);
      }
  
      public void TookDamage(){
-        Debug.Log("got here 2");
-
         if (state == FLASHSTATE.OFF)
          GetComponent<PlayerHealth>().ApplyDamage(1);
          timer = new Timer(rampUpTime);
-         state = FLASHSTATE.HOLD;
+         state = FLASHSTATE.DOWN;
      }
  
  }
