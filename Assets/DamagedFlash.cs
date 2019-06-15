@@ -9,7 +9,7 @@
      public float holdTime=0.1f;
      public float rampDownTime=1.0f;
  
-     enum FLASHSTATE {OFF,UP,HOLD,DOWN}
+     enum FLASHSTATE {OFF,DOWN}
      Timer timer;
      FLASHSTATE state = FLASHSTATE.OFF;
  
@@ -20,8 +20,6 @@
          color.a = 0f;
          pixel.SetPixel(0,0,color);
          pixel.Apply();
-         // for testing
-         //TookDamage(new DamagePacket(1));
      }
  
      public void Update() {
