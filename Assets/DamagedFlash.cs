@@ -36,7 +36,7 @@
              case FLASHSTATE.HOLD:
                  if (timer.UpdateAndTest()){
                      state =FLASHSTATE.DOWN;
-                     GetComponent<PlayerHealth>().ApplyDamage(35);
+                     GetComponent<PlayerHealth>().ApplyDamage(1);
                      timer = new Timer(rampDownTime);
                  }
              break;
