@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
  using System.Collections;
- 
+
  public class DamagedFlash : MonoBehaviour {
      private Texture2D pixel;
      public Color color = Color.red;
-     public float startAlpha=0.0f;
+     public float startAlpha=0.5f;
      public float maxAlpha=1.0f;
      public float rampUpTime=0.5f;
      public float holdTime=0.1f;
@@ -29,7 +29,6 @@
          switch(state){
              case FLASHSTATE.UP:
                  if (timer.UpdateAndTest()){
-                     Debug.Log("going up!");
                      state =FLASHSTATE.HOLD;
                      timer = new Timer(holdTime);
                  }
@@ -37,6 +36,7 @@
              case FLASHSTATE.HOLD:
                  if (timer.UpdateAndTest()){
                      state =FLASHSTATE.DOWN;
+                     GetComponent<PlayerHealth>().ApplyDamage(35);
                      timer = new Timer(rampDownTime);
                  }
              break;
@@ -68,6 +68,7 @@
      }
  
      public void TookDamage(){
+        if(state == FLASHSTATE.OFF)
          timer = new Timer(rampUpTime);
          state = FLASHSTATE.UP;
      }

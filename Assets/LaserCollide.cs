@@ -8,20 +8,21 @@ public class LaserCollide : MonoBehaviour
     public GameObject endAnchor;
     public float holdTime = 0.5f;
     public float rampUpTime = 0.5f;
+    public GameObject manager;
 
 
-    void Start()
-    {
-        LineRenderer line = gameObject.AddComponent<LineRenderer>();
-        line.SetVertexCount(2);
-        line.SetWidth(0.015F, 0.015F);
-        // we want the lines to use local space and not world space
-        line.useWorldSpace = false;
-        line.useLightProbes = false;
-        line.receiveShadows = false;
-        line.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-        line.material.color = Color.red;
-    }
+    //void Start()
+    //{
+    //    LineRenderer line = gameObject.AddComponent<LineRenderer>();
+    //    line.SetVertexCount(2);
+    //    line.SetWidth(0.015F, 0.015F);
+    //    // we want the lines to use local space and not world space
+    //    line.useWorldSpace = false;
+    //    line.useLightProbes = false;
+    //    line.receiveShadows = false;
+    //    line.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+    //    line.material.color = Color.red;
+    //}
     void FixedUpdate()
     {
 
@@ -37,8 +38,9 @@ public class LaserCollide : MonoBehaviour
     {
         if (Physics.Linecast(startAnchor.transform.position, endAnchor.transform.position))
         {
-            GetComponent<DamagedFlash>().TookDamage();
-            //Debug.Log("blocked!");
+            Debug.Log("blocked!");
+            DamagedFlash flash = manager.GetComponent<DamagedFlash>();
+            flash.TookDamage();
         }
     }
 }
